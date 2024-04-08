@@ -1,122 +1,71 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practica1;
 
 import java.util.Scanner;
 
-/**
- *
- * @author esther
- */
 public class Practica1 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double res = 0;
-        String operacion;
-        boolean comprobar = false;
 
         do {
+            double n1 = obtenerNumero(sc, "Introdueix el primer numero:");
+            String operacion = obtenerOperacion(sc);
+            double n2 = obtenerNumero(sc, "Introdueix el segon numero:");
 
-            String numero1;
-            do {
-                System.out.println("\n Introdueix el primer numero. ");
-                numero1 = sc.nextLine();
-            } while (!numero1.matches("[+-]?[\\d]*[.]?[\\d]+"));
-            double nume1 = Double.parseDouble(numero1);
-            double n1 = new Double(numero1);
+            double resultado = calcularOperacion(n1, operacion, n2);
 
-            do {
-                System.out.println("\n Operació? (Indica el signe)");
-                System.out.println("+ = sumar \n - = restar \n"
-                        + " x = multiplicar \n / = dividir \n * = elevar primer num al segon num."
-                        + "\n % = residu");
-                operacion = sc.nextLine();
-                if (operacion.equals("+") || operacion.equals("-") || operacion.equals("x")
-                        || operacion.equals("X") || operacion.equals("/") || operacion.equals("%")
-                        || operacion.equals("*")) {
-                    comprobar = true;
-                } else {
-                    comprobar = false;
-                }
-            } while (comprobar != true);
+            System.out.println("(" + n1 + ") " + operacion + " (" + n2 + ")" + " = " + resultado);
 
-            String numero2;
-            do {
-                System.out.println("\n Introdueix el segon numero.");
-                numero2 = sc.nextLine();
-            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-            double nume2 = Double.parseDouble(numero2);
-            double n2 = new Double(numero2);
+            System.out.println("\nVols continuar operant? [s/n]");
+        } while (sc.nextLine().equalsIgnoreCase("s"));
+    }
 
-            do {
-                comprobar = true;
-                switch (operacion) {
-                    case "+":
-                        res = n2 + n2;
-                        break;
-                    case "-":
-                        res = n1 - n2;
-                        break;
-                    case "x":
-                    case "X":
-                        res = n1 * n2;
-                        break;
-                    case "/":
-                        while (n2 == 0) {
-                            do {
-                                System.err.println(" Al denominador hi ha un zero \n"
-                                        + "per a  evitar errors coloca un altre valor.");
-                                numero2 = sc.nextLine();
-                            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-                            nume2 = Double.parseDouble(numero2);
-                            n2 = new Double(numero2);
-                        }
-                        res = n1 / n2;
-                        break;
-                    case "*":
-                        res = Math.pow(n1, n1);
-                        break;
-                    case "%":
-                        while (n2 == 0) {
-                            do {
-                                System.err.println(" Al denominador hi ha un zero \n"
-                                        + "per a  evitar errors coloca un altre valor.");
-                                numero2 = sc.nextLine();
-                            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-                            nume2 = Double.parseDouble(numero2);
-                            n2 = new Double(numero2);
-                        }
-                        res = n1 % n2;
-                        break;
-                }
-            } while (comprobar != true);
+    private static double obtenerNumero(Scanner sc, String mensaje) {
+        double numero;
+        do {
+            System.out.print(mensaje + " ");
+            while (!sc.hasNextDouble()) {
+                System.out.println("Introdueix un número vàlid.");
+                sc.next();
+            }
+            numero = sc.nextDouble();
+        } while (numero == 0);
+        return numero;
+    }
 
-            System.out.println("(" + numero1 + ") " + operacion + " (" + numero2 + ")" + " = " + res);
-            System.out.println("\n Vols continuar operant? \n");
-            System.out.println(" [s/n]");
-            do {
-                comprobar = true;
-                operacion = sc.nextLine();
+    private static String obtenerOperacion(Scanner sc) {
+        String operacion;
+        do {
+            System.out.println("\nOperació? (Indica el signe)\n");
+            System.out.println("+ = sumar \n- = restar \nx = multiplicar \n/ = dividir \n* = elevar primer num al segon num.\n% = residu");
+            operacion = sc.nextLine();
+        } while (!operacion.matches("[+\\-xX/*%]"));
+        return operacion;
+    }
 
-                switch (operacion) {
-                    case "s":
-                    case "S":
-                    case "n":
-                    case "N":
-                        break;
-                    default:
-                        System.err.println("\n Error, posa un valor vàlid. \n");
-                        comprobar = false;
-                }
-            } while (comprobar != true);
-        } while (operacion.equals("s") || operacion.equals("S"));
+    private static double calcularOperacion(double n1, String operacion, double n2) {
+        double resultado = 0;
+        switch (operacion) {
+            case "+":
+                resultado = n1 + n2;
+                break;
+            case "-":
+                resultado = n1 - n2;
+                break;
+            case "x":
+            case "X":
+                resultado = n1 * n2;
+                break;
+            case "/":
+                resultado = n1 / n2;
+                break;
+            case "*":
+                resultado = Math.pow(n1, n2);
+                break;
+            case "%":
+                resultado = n1 % n2;
+                break;
+        }
+        return resultado;
     }
 }
-//Hola esto es una prueba de testeo
