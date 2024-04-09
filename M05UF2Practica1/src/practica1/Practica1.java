@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//https://docs.github.com/en/desktop/making-changes-in-a-branch/committing-and-reviewing-changes-to-your-project-in-github-desktop
+//https://stackoverflow.com/questions/12951588/in-github-can-i-clone-merge-branch-online
 package practica1;
 
 import java.util.Scanner;
@@ -55,49 +58,6 @@ public class Practica1 {
             double nume2 = Double.parseDouble(numero2);
             double n2 = new Double(numero2);
 
-            do {
-                comprobar = true;
-                switch (operacion) {
-                    case "+":
-                        res = n2 + n2;
-                        break;
-                    case "-":
-                        res = n1 - n2;
-                        break;
-                    case "x":
-                    case "X":
-                        res = n1 * n2;
-                        break;
-                    case "/":
-                        while (n2 == 0) {
-                            do {
-                                System.err.println(" Al denominador hi ha un zero \n"
-                                        + "per a  evitar errors coloca un altre valor.");
-                                numero2 = sc.nextLine();
-                            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-                            nume2 = Double.parseDouble(numero2);
-                            n2 = new Double(numero2);
-                        }
-                        res = n1 / n2;
-                        break;
-                    case "*":
-                        res = Math.pow(n1, n1);
-                        break;
-                    case "%":
-                        while (n2 == 0) {
-                            do {
-                                System.err.println(" Al denominador hi ha un zero \n"
-                                        + "per a  evitar errors coloca un altre valor.");
-                                numero2 = sc.nextLine();
-                            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-                            nume2 = Double.parseDouble(numero2);
-                            n2 = new Double(numero2);
-                        }
-                        res = n1 % n2;
-                        break;
-                }
-            } while (comprobar != true);
-
             System.out.println("(" + numero1 + ") " + operacion + " (" + numero2 + ")" + " = " + res);
             System.out.println("\n Vols continuar operant? \n");
             System.out.println(" [s/n]");
@@ -117,5 +77,23 @@ public class Practica1 {
                 }
             } while (comprobar != true);
         } while (operacion.equals("s") || operacion.equals("S"));
+    }
+    private static double calcularOperacion(double n1, String operacion, double n2) {
+        switch (operacion) {
+            case "+":
+                return n1 + n2;
+            case "-":
+                return n1 - n2;
+            case "*":
+                return n1 * n2;
+            case "/":
+                return n1 / n2;
+            case "^":
+                return Math.pow(n1, n2);
+            case "%":
+                return n1 % n2;
+            default:
+                throw new IllegalArgumentException("Operación no válida: " + operacion);
+        }
     }
 }
